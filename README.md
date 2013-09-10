@@ -5,7 +5,7 @@ Netsoul client with python2.7, twisted, pygtk and pynotify
 
 for instal and upgrade you could use pip:
 ```sh
-sudo pip install --upgrade CatpainSoul
+sudo pip install --upgrade CaptainSoul
 ```
 
 if you don't have notification install pynotify
