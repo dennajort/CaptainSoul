@@ -8,15 +8,6 @@ from argparse import ArgumentParser
 from cptsoul.common import CptCommon
 
 
-def get_args():
-    parser = ArgumentParser(prog='cptsoul')
-    parser.add_argument('-v', '--verbose', action='count', dest='verbose', help='Set verbose mode', default=0)
-    parser.add_argument('-t', action='store_true', dest='tray', help='Start in tray')
-    parser.add_argument('-d', action='store_true', dest='debug', help='Start with debug window')
-    return parser.parse_args()
-CptCommon.cmdline = get_args()
-
-
 def configLogging():
     fmt = '%(levelname)s\t: %(message)s'
     level = logging.DEBUG
@@ -26,6 +17,12 @@ def configLogging():
 
 
 def cptsoul():
+    # cmdline
+    parser = ArgumentParser(prog='cptsoul')
+    parser.add_argument('-v', '--verbose', action='count', dest='verbose', help='Set verbose mode', default=0)
+    parser.add_argument('-t', action='store_true', dest='tray', help='Start in tray')
+    parser.add_argument('-d', action='store_true', dest='debug', help='Start with debug window')
+    CptCommon.cmdline = parser.parse_args()
     # imports
     from twisted.internet import gtk2reactor
     gtk2reactor.install()
