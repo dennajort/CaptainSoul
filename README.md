@@ -18,10 +18,6 @@ for archlinux do:
 ```sh
 yaourt -S captainsoul
 ```
-or
-```sh
-makepkg
-```
 
 for the dump you can launch boot.sh in the xinitrc like that
 ```sh
