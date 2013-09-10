@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="CaptainSoul",
-    version="0.1.1",
+    version="0.1.2",
     author="gossel_j",
     author_email="gosselinjb@gmail.com",
     description="Netsoul client with pygtk and twisted",
@@ -18,7 +18,6 @@ setup(
         ]
     },
     install_requires=[
-        'twisted'
     ],
     package_data={
         'cptsoul': ['icons/*.png']
