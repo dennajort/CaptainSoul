@@ -3,7 +3,4 @@
 *~
 /myflake.sh
 /pypi_upload.sh
-/build/
-/CaptainSoul.egg-info/
-/dist/
 /tmp/
