@@ -1,6 +1,4 @@
 *.pyc
 *.pyo
 *~
-/myflake.sh
-/pypi_upload.sh
 /tmp/
