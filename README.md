@@ -16,7 +16,11 @@ works directly on the dump
 
 for archlinux do:
 ```sh
-pacman -Sy twisted pygtk python2-notify
+yaourt -S captainsoul
+```
+or
+```sh
+makepkg
 ```
 
 for the dump you can launch boot.sh in the xinitrc like that

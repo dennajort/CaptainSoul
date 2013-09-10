@@ -2,7 +2,7 @@
 *.pyo
 *~
 /myflake.sh
-/upload.sh
+/pypi_upload.sh
 /build/
 /CaptainSoul.egg-info/
 /dist/
