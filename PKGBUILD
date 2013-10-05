@@ -34,7 +34,7 @@ install=
 source=(
 	https://pypi.python.org/packages/source/C/CaptainSoul/CaptainSoul-$pkgver.tar.gz
 )
-md5sums=('5c2f222c992903996dd0a36cac8c6c75')
+md5sums=('1d6f1d548d44774aeeaa45a580e477a6')
 
 package() {
   cd "$srcdir/CaptainSoul-$pkgver"
