@@ -3,3 +3,6 @@
 *~
 /tmp/
 /.idea/
+/dist
+/CaptainSoul.egg-info
+/build
