@@ -20,11 +20,13 @@ class MainWindow(gtk.Window, CptCommon):
         self._createUi()
         self.connect("delete-event", self.deleteEvent)
         self.connect("configure-event", self.resizeEvent)
+
+    def afterSystrayInit(self):
         if self.cmdline.tray and not self.systray.is_embedded():
             self.show_all()
             self.iconify()
         elif not self.cmdline.tray:
-            self.show_all()
+            self.show_all()        
 
     def _createAccels(self):
         accels = [

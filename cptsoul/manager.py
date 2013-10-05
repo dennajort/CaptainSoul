@@ -57,8 +57,9 @@ class Manager(gobject.GObject, ClientFactory, CptCommon):
         reactor.addSystemEventTrigger('before', 'shutdown', self._beforeShutdown)
         gtk.window_set_default_icon(icons.shield)
         CptCommon.manager = self
-        CptCommon.systray = Systray()
         CptCommon.mainWindow = MainWindow()
+        CptCommon.systray = Systray()
+        CptCommon.mainWindow.afterSystrayInit()
         CptCommon.downloadManager = DownloadManager()
         if CptCommon.cmdline.debug:
             DebugWindow()
