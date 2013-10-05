@@ -2,7 +2,7 @@
 
 import gtk
 
-from cptsoul.common import CptCommon, ignoreParams
+from cptsoul.common import CptCommon
 from cptsoul.downloadmanager.downloadlist import DownloadList
 from cptsoul.downloadmanager.uploadlist import UploadList
 
@@ -40,6 +40,5 @@ class DownloadManager(gtk.Window, CptCommon):
         scroll.add(up)
         box.pack_start(scroll, True, True, 0)
 
-    @ignoreParams
-    def resizeEvent(self):
+    def resizeEvent(self, win, event):
         self.config['downWidth'], self.config['downHeight'] = self.get_size()

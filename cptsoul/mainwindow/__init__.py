@@ -2,7 +2,7 @@
 
 import gtk
 
-from cptsoul.common import CptCommon, ignoreParams
+from cptsoul.common import CptCommon
 
 from cptsoul.mainwindow.watchlist import WatchList
 from cptsoul.mainwindow.toolbar import ToolBar
@@ -23,10 +23,9 @@ class MainWindow(gtk.Window, CptCommon):
 
     def afterSystrayInit(self):
         if self.cmdline.tray and not self.systray.is_embedded():
-            self.show_all()
             self.iconify()
         elif not self.cmdline.tray:
-            self.show_all()        
+            self.show_all()
 
     def _createAccels(self):
         accels = [
@@ -56,20 +55,17 @@ class MainWindow(gtk.Window, CptCommon):
 
     # Events
 
-    @ignoreParams
-    def deleteEvent(self):
+    def deleteEvent(self, win, event):
         if self.systray.is_embedded():
             self.hide()
         else:
             self.iconify()
         return True
 
-    @ignoreParams
-    def resizeEvent(self):
+    def resizeEvent(self, win, event):
         self.config['mainWidth'], self.config['mainHeight'] = self.get_size()
 
-    @ignoreParams
-    def showHideEvent(self):
+    def showHideEvent(self, systray):
         if self.get_visible():
             if self.systray.is_embedded():
                 self.hide()
@@ -77,3 +73,4 @@ class MainWindow(gtk.Window, CptCommon):
                 self.iconify()
         else:
             self.show_all()
+            self.present()

@@ -2,7 +2,7 @@
 
 import gtk
 
-from cptsoul.common import CptCommon, ignoreParams
+from cptsoul.common import CptCommon
 from cptsoul.chatwindow.chatview import ChatView
 from cptsoul.chatwindow.chatstatus import ChatStatus
 from cptsoul.chatwindow.chatentry import ChatEntry
@@ -35,6 +35,5 @@ class ChatWindow(gtk.Window, CptCommon):
         box.pack_start(entry, False, False, 0)
         box.set_focus_chain([entry])
 
-    @ignoreParams
-    def resizeEvent(self):
+    def resizeEvent(self, win, event):
         self.config['chatWidth'], self.config['chatHeight'] = self.get_size()
