@@ -38,5 +38,3 @@ def cptsoul():
     manager = Manager()
     manager()
     reactor.run()
-    if CptCommon.willReboot:
-        os.execl(sys.executable, sys.executable, *sys.argv)

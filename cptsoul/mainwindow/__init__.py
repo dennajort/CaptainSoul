@@ -18,9 +18,12 @@ class MainWindow(gtk.Window, CptCommon):
         self.resize(self.config['mainWidth'], self.config['mainHeight'])
         self._createAccels()
         self._createUi()
-        self.connect("delete-event", self.hide_on_delete)
+        self.connect("delete-event", self.deleteEvent)
         self.connect("configure-event", self.resizeEvent)
-        if not self.cmdline.tray:
+        if self.cmdline.tray and not self.systray.is_embedded():
+            self.show_all()
+            self.iconify()
+        elif not self.cmdline.tray:
             self.show_all()
 
     def _createAccels(self):
@@ -52,12 +55,22 @@ class MainWindow(gtk.Window, CptCommon):
     # Events
 
     @ignoreParams
+    def deleteEvent(self):
+        if self.systray.is_embedded():
+            self.hide()
+        else:
+            self.iconify()
+
+    @ignoreParams
     def resizeEvent(self):
         self.config['mainWidth'], self.config['mainHeight'] = self.get_size()
 
     @ignoreParams
     def showHideEvent(self):
         if self.get_visible():
-            self.hide()
+            if self.systray.is_embedded():
+                self.hide()
+            else:
+                self.iconify()
         else:
             self.show_all()
