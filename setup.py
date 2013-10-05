@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="CaptainSoul",
-    version="0.1.6",
+    version="0.1.7",
     author="gossel_j",
     author_email="gosselinjb@gmail.com",
     description="Netsoul client with pygtk and twisted",
