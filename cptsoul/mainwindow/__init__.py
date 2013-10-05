@@ -33,7 +33,7 @@ class MainWindow(gtk.Window, CptCommon):
             ('<ctrl>p', self.manager.openSettingsWindowEvent),
             ('<ctrl>o', self.manager.openAddContactWindowEvent),
             ('<ctrl>q', self.manager.quitEvent),
-            ('Escape', self.hide_on_delete)
+            ('Escape', self.deleteEvent)
         ]
         ag = gtk.AccelGroup()
         self.add_accel_group(ag)
@@ -62,6 +62,7 @@ class MainWindow(gtk.Window, CptCommon):
             self.hide()
         else:
             self.iconify()
+        return True
 
     @ignoreParams
     def resizeEvent(self):
