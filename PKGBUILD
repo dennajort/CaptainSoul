@@ -8,7 +8,7 @@
 
 # Maintainer: Your Name <youremail@domain.com>
 pkgname=captainsoul
-pkgver="0.1.2"
+pkgver="0.1.3"
 pkgrel=1
 pkgdesc="Netsoul client with pygtk and twisted"
 arch=('any')
