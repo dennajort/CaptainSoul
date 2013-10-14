@@ -34,16 +34,16 @@ class ConfigFile(object):
         try:
             data = load(file(self._path, 'r'))
             if not isinstance(data, dict):
-                logging.warning("Config : File is not well formatted")
+                logging.error("File is not well formatted")
                 data = {}
         except IOError:
-            logging.warning("Config : File don't exist")
+            logging.info("File don't exist")
             data = {}
         except ValueError:
-            logging.warning("Config : File isn't JSON")
+            logging.error("File isn't JSON")
             data = {}
         else:
-            logging.info("Config : File ok")
+            logging.info("File OK")
         self._data = {key: klass(data.get(key, default)) for key, klass, default in keys}
 
     def write(self):
@@ -55,18 +55,22 @@ class ConfigFile(object):
                 separators=(',', ': ')
             )
         except:
-            logging.warning("Config : Can't write file")
+            logging.error("Can't write file")
         else:
-            logging.info("Config : File successfully written")
+            logging.info("File successfully written")
 
     def __getitem__(self, key):
         if key in self._data:
+            logging.debug('Get key "%s"' % key)
             return self._data[key]._get()
         else:
+            logging.error("Key %s don't exist" % key)
             raise KeyError(key)
 
     def __setitem__(self, key, value):
         if key in self._data:
+            logging.debug('Set key "%s" == "%s"' % (key, value))
             self._data[key]._set(value)
         else:
+            logging.error("Key %s don't exist" % key)
             raise KeyError(key)

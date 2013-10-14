@@ -7,7 +7,7 @@ from cptsoul.common import CptCommon
 
 
 def configLogging():
-    fmt = '%(levelname)s\t: %(message)s'
+    fmt = '%(levelname)s - %(funcName)s: %(message)s'
     level = logging.DEBUG
     if CptCommon.cmdline.verbose <= 3:
         level = [logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG][CptCommon.cmdline.verbose]
@@ -25,9 +25,6 @@ def cptsoul():
     from twisted.internet import gtk2reactor
     gtk2reactor.install()
     from twisted.internet import reactor
-    from twisted.python import log
-    observer = log.PythonLoggingObserver()
-    observer.start()
     from cptsoul.config import createConfigFile
     from cptsoul.manager import Manager
     # start

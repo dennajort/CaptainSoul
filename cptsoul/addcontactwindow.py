@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 import gtk
 
 
 class AddContactWindow(gtk.Dialog):
     def __init__(self):
         super(AddContactWindow, self).__init__(title="CaptainSoul - Add contact")
+        logging.debug("Create Window")
         self.set_properties(
             resizable=False
         )
