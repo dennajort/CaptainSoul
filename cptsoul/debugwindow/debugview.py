@@ -14,6 +14,7 @@ class DebugView(gtk.ScrolledWindow, CptCommon):
             hscrollbar_policy=gtk.POLICY_AUTOMATIC,
             vscrollbar_policy=gtk.POLICY_AUTOMATIC
         )
+        self._buffer = None
         self._createUi()
         self.connect('destroy', self.destroyEvent)
         self._connections = [

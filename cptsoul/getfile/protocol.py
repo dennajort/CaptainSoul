@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from twisted.internet.protocol import Protocol
+from twisted.internet.protocol import Protocol, connectionDone
 
 
 class GetFileProtocol(Protocol):
@@ -12,7 +12,7 @@ class GetFileProtocol(Protocol):
     def connectionMade(self):
         self._coCall()
 
-    def connectionLost(self, reason):
+    def connectionLost(self, reason=connectionDone):
         self._endCall()
 
     def dataReceived(self, data):

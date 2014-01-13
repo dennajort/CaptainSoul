@@ -3,26 +3,27 @@
 
 class defaultJSON(object):
     def __init__(self, value):
-        self._set(value)
+        self._value = None
+        self.setter(value)
 
-    def _get(self):
+    def getter(self):
         return self._value
 
-    def _set(self, value):
+    def setter(self, value):
         self._value = value
 
-    def _toJSON(self):
+    def toJSON(self):
         return self._value
 
 
 class nonEmptyStrSetJSON(defaultJSON):
-    def _set(self, value):
+    def setter(self, value):
         self._value = set([v for v in value if isinstance(v, basestring) if v])
 
-    def _toJSON(self):
+    def toJSON(self):
         return list(self._value)
 
-    def _get(self):
+    def getter(self):
         return self
 
     def add(self, v):
@@ -46,17 +47,17 @@ class nonEmptyStrSetJSON(defaultJSON):
 
 
 class intJSON(defaultJSON):
-    def _set(self, value):
+    def setter(self, value):
         self._value = int(value)
 
 
 class boolJSON(defaultJSON):
-    def _set(self, value):
+    def setter(self, value):
         self._value = bool(value)
 
 
 class nonEmptyStrJSON(defaultJSON):
-    def _set(self, value):
+    def setter(self, value):
         if isinstance(value, basestring):
             if len(value) > 0:
                 self._value = value

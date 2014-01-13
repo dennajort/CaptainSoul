@@ -16,10 +16,10 @@
 ### Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 ### Boston, MA 02111-1307, USA.
 
-'''
+"""
 A gtk.TextView-based renderer for XHTML-IM, as described in:
   http://www.jabber.org/jeps/jep-0071.html
-'''
+"""
 import gobject
 import pango
 import gtk
@@ -41,7 +41,7 @@ display_resolution = 0.3514598 * (gtk.gdk.screen_height() / float(gtk.gdk.screen
 
 
 def _parse_css_color(color):
-    '''_parse_css_color(css_color) -> gtk.gdk.Color'''
+    """_parse_css_color(css_color) -> gtk.gdk.Color"""
     if color.startswith("rgb(") and color.endswith(')'):
         r, g, b = [int(c) * 257 for c in color[4:-1].split(',')]
         return gtk.gdk.Color(r, g, b)
@@ -115,8 +115,10 @@ class HtmlHandler(xml.sax.handler.ContentHandler):
         callback(allocation.width * frac, *args)
 
     def _parse_length(self, value, font_relative, callback, *args):
-        '''Parse/calc length, converting to pixels, calls callback(length, *args)
-        when the length is first computed or changes'''
+        """
+        Parse/calc length, converting to pixels, calls callback(length, *args)
+        when the length is first computed or changes
+        """
         if value.endswith('%'):
             frac = float(value[:-1]) / 100
             if font_relative:
@@ -310,7 +312,7 @@ class HtmlHandler(xml.sax.handler.ContentHandler):
         self._insert_text(self.text.replace('\n', ''))
         self.text = ''
 
-    def _anchor_event(self, tag, textview, event, iter, href, type_):
+    def _anchor_event(self, tag, textview, event, it, href, type_):
         if event.type == gtk.gdk.BUTTON_PRESS and event.button == 1:
             self.textview.emit("url-clicked", href, type_)
             return True

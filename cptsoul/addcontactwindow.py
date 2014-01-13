@@ -12,6 +12,7 @@ class AddContactWindow(gtk.Dialog):
         self.set_properties(
             resizable=False
         )
+        self._entry = None
         self._createUi()
         self.show_all()
 

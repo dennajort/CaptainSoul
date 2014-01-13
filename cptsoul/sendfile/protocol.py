@@ -2,7 +2,7 @@
 
 import logging
 
-from twisted.internet.protocol import Protocol
+from twisted.internet.protocol import Protocol, connectionDone
 
 from cptsoul.sendfile.producer import Producer
 
@@ -13,7 +13,6 @@ class SendProtocol(Protocol):
         self._progressCallback = progressCallback
         self._endCallback = endCallback
         self._errorCallback = errorCallback
-        self._errorCallback
         self._allGood = False
 
     def connectionMade(self):
@@ -22,7 +21,7 @@ class SendProtocol(Protocol):
         self.transport.registerProducer(producer, True)
         producer.resumeProducing()
 
-    def connectionLost(self, reason):
+    def connectionLost(self, reason=connectionDone):
         if self._allGood:
             logging.info('SendFile : File sended')
             self._endCallback()

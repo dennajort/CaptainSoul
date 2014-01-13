@@ -14,6 +14,8 @@ class DownloadManager(gtk.Window, CptCommon):
             title="CaptainSoul - Download Manager"
         )
         self.resize(self.config['downWidth'], self.config['downHeight'])
+        self.startFileDownload = None
+        self.startFileUpload = None
         self._createUi()
         self.connect("delete-event", self.hide_on_delete)
         self.connect("configure-event", self.resizeEvent)

@@ -11,7 +11,7 @@ from cptsoul.common import CptCommon
 
 
 class ChatView(gtk.ScrolledWindow, CptCommon):
-    http_regex = re.compile(r"(?P<link>https?://[\w\-\.~\:/\?#\[\]@!$&'\(\)\*\+,;=%]+)")
+    http_regex = re.compile(r"(https?://[\w\-\.~\:/\?#\[\]@!$&'\(\)\*\+,;=%]+)")
 
     def __init__(self, entry, login, msg=None):
         super(ChatView, self).__init__()
@@ -22,6 +22,7 @@ class ChatView(gtk.ScrolledWindow, CptCommon):
             vscrollbar_policy=gtk.POLICY_AUTOMATIC
         )
         self._buffer = ""
+        self._view = None
         self._createUi(entry)
         self.connect('destroy', self.destroyEvent)
         self._connections = [
@@ -57,7 +58,7 @@ class ChatView(gtk.ScrolledWindow, CptCommon):
         ]
         for orig, new in changes:
             msg = re.sub(orig, new, msg)
-        self._buffer += self.http_regex.sub('<a href="\g<link>">\g<link></a>', msg)
+        self._buffer += self.http_regex.sub(r'<a href="\1">\1</a>', msg)
         self._buffer += "<br/>"
         self._view.set_html(u'<body>%s</body>' % self._buffer)
 

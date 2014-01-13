@@ -20,12 +20,11 @@ class FileGetter(CptCommon):
         self._done = 0
         self._sizeTotal = size
         self._percent = 0
-        factory = GetFileFactory(
+        self._port = reactor.listenTCP(0, GetFileFactory(
             self.clientConnectionMade,
             self.clientProgress,
             self.clientConnectionEnd
-        )
-        self._port = reactor.listenTCP(0, factory)
+        ))
         logging.info('GetFile : Listen on port %d' % self._port.getHost().port)
         self.manager.sendFileStart(name, self.info['host'], self._port.getHost().port, [info.login])
 

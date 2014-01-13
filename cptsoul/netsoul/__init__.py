@@ -5,6 +5,7 @@ from time import time
 from hashlib import md5
 from collections import deque
 
+from twisted.internet.protocol import connectionDone
 from twisted.protocols.basic import LineOnlyReceiver
 
 from cptsoul.common import CptCommon
@@ -20,23 +21,24 @@ class NsProtocol(LineOnlyReceiver, CptCommon):
         self._responseQueue = deque()
         self._whoQueue = deque()
         self._realist = ReaList(
-            Rea(r'^rep (?P<no>\d+) -- .*$', self._responseHook),
-            Rea(r'^ping (?P<t>\d+)\s?$', self._pingHook),
-            Rea(r'^salut (?P<num>\d+) (?P<md5_hash>[0-9a-fA-F]{32}) (?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
-                r' (?P<port>\d{1,5}) (?P<timestamp>\d+)$', self._salutHook),
-            Rea(r'^user_cmd (?P<no>\d+):\w+:\d+/\d+:(?P<login>.+)@(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
-                r':.+:(?P<loc>.+):.+ \| (?P<cmd>.*)$', self._userCmdHook))
+            Rea(r"^rep (?P<no>\d+) -- .*$", self._responseHook),
+            Rea(r"^ping (?P<t>\d+)\s?$", self._pingHook),
+            Rea(r"^salut (?P<num>\d+) (?P<md5_hash>[0-9a-fA-F]{32}) (?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+                r" (?P<port>\d{1,5}) (?P<timestamp>\d+)$", self._salutHook),
+            Rea(r"^user_cmd (?P<no>\d+):\w+:\d+/\d+:(?P<login>.+)@(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+                r":.+:(?P<loc>.+):.+ \| (?P<cmd>.*)$", self._userCmdHook))
         self._cmd_realist = ReaList(
-            Rea(r'^who (?P<no>\d+) (?P<login>.+) (?P<ip>[\d\.]{7,15}) \d+ \d+ \d+ \d+ .+ (?P<loc>.+) .+ (?P<state>\w+)(:\d+)? (?P<res>.+)$', self._cmdWhoHook),
-            Rea(r'^who rep 002 -- cmd end$', self._cmdWhoEndHook),
-            Rea(r'^msg (?P<msg>.+) dst=(?P<dest>.*)$', self._cmdMsgHook),
-            Rea(r'^state (?P<state>\w+?)(:\d+)?\s?$', self._cmdStateHook),
-            Rea(r'^login\s?$', self._cmdLoginHook),
-            Rea(r'^logout\s?$', self._cmdLogoutHook),
-            Rea(r'^dotnetSoul_UserTyping null dst=.*$', self._cmdIsTypingHook),
-            Rea(r'^dotnetSoul_UserCancelledTyping null dst=.*$', self._cmdCancelTypingHook),
-            Rea(r'^file_ask (?P<data>.+) dst=.*$', self._cmdFileAskHook),
-            Rea(r'^file_start (?P<data>.+) dst=.*$', self._cmdFileStartHook)
+            Rea(r"^who (?P<no>\d+) (?P<login>.+) (?P<ip>[\d\.]{7,15}) \d+ \d+ \d+ \d+ .+ (?P<loc>.+)"
+                r" .+ (?P<state>\w+)(:\d+)? (?P<res>.+)$", self._cmdWhoHook),
+            Rea(r"^who rep 002 -- cmd end$", self._cmdWhoEndHook),
+            Rea(r"^msg (?P<msg>.+) dst=(?P<dest>.*)$", self._cmdMsgHook),
+            Rea(r"^state (?P<state>\w+?)(:\d+)?\s?$", self._cmdStateHook),
+            Rea(r"^login\s?$", self._cmdLoginHook),
+            Rea(r"^logout\s?$", self._cmdLogoutHook),
+            Rea(r"^dotnetSoul_UserTyping null dst=.*$", self._cmdIsTypingHook),
+            Rea(r"^dotnetSoul_UserCancelledTyping null dst=.*$", self._cmdCancelTypingHook),
+            Rea(r"^file_ask (?P<data>.+) dst=.*$", self._cmdFileAskHook),
+            Rea(r"^file_start (?P<data>.+) dst=.*$", self._cmdFileStartHook)
         )
 
     def lineReceived(self, line):
@@ -45,7 +47,7 @@ class NsProtocol(LineOnlyReceiver, CptCommon):
         if not self._realist.found_match(line):
             logging.warning('Netsoul : Unknown line : "%s"' % line)
 
-    def connectionLost(self, reason):
+    def connectionLost(self, reason=connectionDone):
         pass
 
     def connectionMade(self):
@@ -126,8 +128,10 @@ class NsProtocol(LineOnlyReceiver, CptCommon):
 
     def _responseSalutHook(self, no):
         if no == 2:
-            md5_hash = md5('%s-%s/%s%s' % (self.info['hash'], self.info['host'], self.info['port'], self.config['password'])).hexdigest()
-            self.sendLine('ext_user_log %s %s %s %s' % (self.config['login'], md5_hash, urlEncode(self.config['location']), 'CaptainSoul'))
+            md5_hash = md5('%s-%s/%s%s' % (
+                self.info['hash'], self.info['host'], self.info['port'], self.config['password'])).hexdigest()
+            self.sendLine('ext_user_log %s %s %s %s' % (
+                self.config['login'], md5_hash, urlEncode(self.config['location']), 'CaptainSoul'))
             self._responseQueue.append(self._responseLogHook)
         else:
             logging.warning('Netsoul : Salut response unknown %d' % no)

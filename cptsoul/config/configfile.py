@@ -49,7 +49,7 @@ class ConfigFile(object):
     def write(self):
         try:
             dump(
-                {key: value._toJSON() for key, value in self._data.iteritems()},
+                {key: value.toJSON() for key, value in self._data.iteritems()},
                 file(self._path, 'w'),
                 indent=4,
                 separators=(',', ': ')
@@ -62,7 +62,7 @@ class ConfigFile(object):
     def __getitem__(self, key):
         if key in self._data:
             logging.debug('Get key "%s"' % key)
-            return self._data[key]._get()
+            return self._data[key].getter()
         else:
             logging.error("Key %s don't exist" % key)
             raise KeyError(key)
@@ -70,7 +70,7 @@ class ConfigFile(object):
     def __setitem__(self, key, value):
         if key in self._data:
             logging.debug('Set key "%s" == "%s"' % (key, value))
-            self._data[key]._set(value)
+            self._data[key].setter(value)
         else:
             logging.error("Key %s don't exist" % key)
             raise KeyError(key)

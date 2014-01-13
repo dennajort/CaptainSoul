@@ -11,6 +11,9 @@ class SettingsWindow(gtk.Dialog, CptCommon):
         self.set_properties(
             resizable=False
         )
+        self._autoButton = None
+        self._notiButton = None
+        self._entries = None
         self._createUi()
         self.show_all()
 
