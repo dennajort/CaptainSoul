@@ -26,9 +26,3 @@ def ignoreParams(func):
     def ignorebis(obj, *args, **kwargs):
         func(obj)
     return ignorebis
-
-
-def ignoreParamsFn(func):
-    def ignorebis(*args, **kwargs):
-        func()
-    return ignorebis
